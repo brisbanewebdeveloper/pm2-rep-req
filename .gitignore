@@ -1,0 +1,7 @@
+/node_modules
+*.log
+*.pid
+.idea/**
+package-lock.json
+.DS_Store
+*.swp

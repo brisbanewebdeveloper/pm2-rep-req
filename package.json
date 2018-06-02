@@ -1,0 +1,28 @@
+{
+  "name": "pm2-rep-req",
+  "version": "1.0.0",
+  "description": "Cluster with PM2 and Axon by using Req / Rep model.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hironozu/pm2-rep-req.git"
+  },
+  "keywords": [
+    "Node.js",
+    "Cluster",
+    "PM2"
+  ],
+  "author": "Hiro Nozu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hironozu/pm2-rep-req/issues"
+  },
+  "homepage": "https://github.com/hironozu/pm2-rep-req#readme",
+  "dependencies": {
+    "argv": "0.0.2",
+    "pm2": "^2.10.4"
+  }
+}
