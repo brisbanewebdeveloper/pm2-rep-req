@@ -106,9 +106,12 @@ async function main() {
       script: __filename,
       instances: instances,
       args: '--worker --example=777',
+      deleteOnComplete: false,
     });
 
     await master.run();
+    await master.finish();
+
     process.exit(0);
   }
 }

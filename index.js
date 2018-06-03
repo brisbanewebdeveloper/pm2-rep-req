@@ -27,7 +27,20 @@ class Pm2RepReq {
       this.instances = options.instances;
       this.args = options.args;
       this.sock = axon.socket('rep');
+      this.deleteOnComplete = options.deleteOnComplete;
     }
+  }
+
+  async finish () {
+    return new Promise((resolve => {
+      if (this.verbose) console.log('Deleting Worker');
+      pm2.delete(this.name, err => {
+        if (err) console.log(err);
+        if (this.verbose) console.log('Finishing Master');
+        pm2.disconnect();
+        resolve();
+      });
+    }));
   }
 
   async run () {
@@ -73,15 +86,7 @@ class Pm2RepReq {
 
       await promise;
 
-      await new Promise((resolve => {
-        if (this.verbose) console.log('Deleting Worker');
-        pm2.delete(this.name, err => {
-          if (err) console.log(err);
-          if (this.verbose) console.log('Finishing Master');
-          pm2.disconnect();
-          resolve();
-        });
-      }));
+      if (this.deleteOnComplete) await this.finish();
     }
   }
 }

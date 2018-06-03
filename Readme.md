@@ -76,3 +76,7 @@ The number of instances of script to create.
 ##### args: string
 
 Options for `argv`. Useful to put the logic on both side.
+
+##### deleteOnComplete: boolean
+
+Set true to delete the worker upon completing the task at Master-side.
