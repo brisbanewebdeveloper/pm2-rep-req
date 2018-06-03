@@ -21,6 +21,7 @@ time node example.js
 
 ### Pm2RepReq(options)
 
+
 #### Worker Side
 
 ##### verbose: boolean
@@ -42,6 +43,7 @@ Callback when receiving the message from Master.
 ##### args: options,
 
 Options for `argv`. Useful to put the logic on both side.
+
 
 #### Master Side
 
@@ -79,4 +81,24 @@ Options for `argv`. Useful to put the logic on both side.
 
 ##### deleteOnComplete: boolean
 
-Set true to delete the worker upon completing the task at Master-side.
+Set true to delete Worker upon completing the task at Master-side.
+
+##### onIdle: function
+
+Function to check if the task is finished.
+
+##### options: Object
+
+Extra option to pass to [pm2.start()](http://pm2.keymetrics.io/docs/usage/pm2-api/#programmatic-api).
+
+##### finish()
+
+Use this method if you set false to `deleteOnComplete` to delete Worker.
+
+##### process()
+
+This makes Master wait for the request from Worker.
+
+##### reload()
+
+##### run()

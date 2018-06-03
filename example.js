@@ -2,7 +2,7 @@
 'use strict';
 
 const instances = 2;
-const taskCnt = 5000;
+const initialTaskCnt = 5000
 
 const port = 60000;
 const argv = require('argv');
@@ -39,12 +39,23 @@ async function main() {
       cb: (args, sock) => {
         function request(args, sock) {
           sock.send('request', [], res => {
-            if (res !== null) {
-              console.log(`Received ${res.task}: ${res.data.sql}, ${res.data.value}`);
+            if (res === null) {
+              console.log('Idling');
+            } else {
+
+              console.log(`Received - Task: ${res.task}, Value: ${res.value}`);
               //console.log('example', args.options.example);
-              sock.send('resolved', res, () => {});
-              request(args, sock);
+
+              // To figure out the number of instances for your environment
+              // (instances is also to be changed see the results)
+              //const result = true;
+
+              // To test if it finishes after all the tasks are completed
+              const result = Math.floor(Math.random() * 100 % 10);
+
+              sock.send((result > 0) ? 'resolved' : 'failed', res, () => {});
             }
+            request(args, sock);
           });
         }
         request(args, sock);
@@ -59,19 +70,18 @@ async function main() {
     // Master
 
     let tasks = [];
-    for (let i = 0; i < taskCnt; i++) tasks.push(`${i + 1}`);
-    let taskReceived = 0;
+    let taskCnt = initialTaskCnt;
+    for (let i = 0; i < initialTaskCnt; i++) tasks.push({task: 'example', value: i + 1});
 
-    const master = new Pm2RepReq({
+    let taskSucceeded = [];
+    let taskFailed = [];
+    let taskFinished = 0;
+
+    const options = {
       verbose: true,
       worker: false,
       port: port,
-      cb: (task, data, reply) => {
-
-        let res = {
-          task: null,
-          data: {},
-        };
+      cb: async (task, data, reply) => {
 
         switch (task) {
           case 'request':
@@ -79,27 +89,24 @@ async function main() {
               reply(null);
             } else {
               const value = tasks.shift();
-              res.task = 'exec-sql';
-              res.data.sql = `SELECT * FROM example WHERE field = ?`;
-              res.data.value = value;
-              reply(res);
+              reply(value);
             }
             break;
           case 'resolved':
-            taskReceived++;
-            console.log('Resolved', `${taskReceived}/${taskCnt}`);
+            taskFinished++;
+            taskSucceeded.push(data);
+            console.log(`Resolved: ${taskFinished}/${taskCnt}`);
             reply(1);
             break;
-          //case 'failed':
-          //  tasks.push(data);
-          //  console.log('Failed', `${taskReceived}/${taskCnt}`);
-          //  reply(1);
-          //  break;
+          case 'failed':
+            taskFinished++;
+            taskFailed.push(data);
+            console.log(`Failed: ${taskFinished}/${taskCnt}`);
+            reply(1);
+            break;
           default:
             console.log(`Unknown task ${task}`);
         }
-
-        return (taskReceived === taskCnt);
 
       },
       name: 'example',
@@ -107,10 +114,39 @@ async function main() {
       instances: instances,
       args: '--worker --example=777',
       deleteOnComplete: false,
-    });
+      onIdle: () => {
+        return (taskFinished === taskCnt);
+      },
+      options: {
+        max_memory_restart : '50M',
+      },
+    };
 
-    await master.run();
+    console.log(`Number of Tasks: ${tasks.length}`);
+
+    let master = null;
+    while (true) {
+      if (master === null) {
+        master = new Pm2RepReq(options);
+        await master.run();
+      } else {
+        if (taskFailed.length === 0) {
+          break;
+        } else {
+          console.log(`Number of Tasks Failed: ${taskFailed.length}`);
+          tasks = taskFailed;
+          taskCnt = tasks.length;
+          taskFailed = [];
+          taskFinished = 0;
+          // await master.reload();
+          await master.process();
+        }
+      }
+    }
+
     await master.finish();
+
+    console.log(`Number of Tasks Completed: ${taskSucceeded.length}`);
 
     process.exit(0);
   }

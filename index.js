@@ -22,12 +22,22 @@ class Pm2RepReq {
       this.args = argv.run();
       this.sock = axon.socket('req');
     } else {
+
       this.name = options.name;
       this.script = options.script;
       this.instances = options.instances;
       this.args = options.args;
       this.sock = axon.socket('rep');
       this.deleteOnComplete = options.deleteOnComplete;
+      this.onIdle = options.onIdle;
+
+      this.options = Object.assign({
+        name: this.name,
+        script: this.script,
+        exec_mode: 'cluster',
+        instances: this.instances,
+        args: this.args,
+      }, options.options);
     }
   }
 
@@ -41,6 +51,37 @@ class Pm2RepReq {
         resolve();
       });
     }));
+  }
+
+  async process (err, apps) {
+
+    const onIdle = this.onIdle;
+
+    return new Promise((resolve, error) => {
+      function polling () {
+        if (onIdle()) {
+          resolve();
+        } else {
+          setTimeout(polling, 1);
+        }
+      }
+      polling();
+    });
+  }
+
+  async reload () {
+    return new Promise((resolve, error) => {
+      pm2.reload(this.name, async (err, apps) => {
+        if (err) {
+          if (this.verbose) console.error('Failed at reloading Worker', err);
+          error(err);
+        } else {
+          if (this.verbose) console.log('Reloaded Worker');
+          await this.process(err, apps);
+          resolve();
+        }
+      });
+    });
   }
 
   async run () {
@@ -62,29 +103,28 @@ class Pm2RepReq {
         });
       });
 
-      const promise = new Promise(resolve => {
-        if (this.verbose) console.log(`Binding to Port ${this.port}`);
-        this.sock.bind(this.port);
-        this.sock.on('message', (task, data, reply) => {
-          if (this.cb(task, data, reply)) resolve();
-        });
+      if (this.verbose) console.log(`Binding to Port ${this.port}`);
+      this.sock.bind(this.port);
+
+      this.sock.on('message', (task, data, reply) => {
+        this.cb(task, data, reply);
       });
 
-      pm2.start({
-        name: this.name,
-        script: this.script,
-        exec_mode: 'cluster',
-        instances: this.instances,
-        args: this.args,
-      }, async (err, apps) => {
-        if (err) {
-          if (this.verbose) console.error('Failed at starting Master', err);
-        } else {
-          if (this.verbose) console.log('Master is ready');
-        }
+      await new Promise((resolve, error) => {
+        pm2.start(
+          this.options,
+          async (err, apps) => {
+            if (err) {
+              if (this.verbose) console.error('Failed at starting Worker', err);
+              error(err);
+            } else {
+              if (this.verbose) console.log('Started Worker');
+              await this.process(err, apps);
+              resolve();
+            }
+          }
+        );
       });
-
-      await promise;
 
       if (this.deleteOnComplete) await this.finish();
     }
