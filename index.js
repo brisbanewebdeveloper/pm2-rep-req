@@ -46,7 +46,7 @@ class Pm2RepReq {
       if (this.verbose) console.log('Deleting Worker');
       pm2.delete(this.name, err => {
         if (err) console.log(err);
-        if (this.verbose) console.log('Finishing Master');
+        if (this.verbose) console.log('Finishing Worker');
         pm2.disconnect();
         resolve();
       });
