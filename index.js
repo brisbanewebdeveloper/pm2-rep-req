@@ -48,6 +48,7 @@ class Pm2RepReq {
         if (err) console.log(err);
         if (this.verbose) console.log('Finishing Worker');
         pm2.disconnect();
+        this.sock.close();
         resolve();
       });
     }));
