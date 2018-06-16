@@ -87,6 +87,8 @@ class Pm2RepReq {
 
   async run () {
 
+    const self = this;
+
     if (this.worker)  {
       if (this.verbose) console.log(`Connecting to Master via Port ${this.port}`);
       this.sock.connect(this.port);
@@ -106,6 +108,11 @@ class Pm2RepReq {
 
       if (this.verbose) console.log(`Binding to Port ${this.port}`);
       this.sock.bind(this.port);
+      process.on('SIGINT', function() {
+        console.log(`Closing Port ${self.port}`);
+        self.sock.close();
+        process.exit(1);
+      });
 
       this.sock.on('message', (task, data, reply) => {
         this.cb(task, data, reply);
