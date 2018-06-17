@@ -109,9 +109,9 @@ class Pm2RepReq {
       if (this.verbose) console.log(`Binding to Port ${this.port}`);
       this.sock.bind(this.port);
       process.on('SIGINT', function() {
-        console.log(`Closing Port ${self.port}`);
+        console.info(`Closing Port ${self.port}`);
         self.sock.close();
-        process.exit(1);
+        process.exit(0);
       });
 
       this.sock.on('message', (task, data, reply) => {
