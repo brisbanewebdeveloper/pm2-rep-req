@@ -2,7 +2,7 @@
 'use strict';
 
 const instances = 2;
-const initialTaskCnt = 5000
+const initialTaskCnt = 5000;
 
 const port = 60000;
 const argv = require('argv');
@@ -69,6 +69,9 @@ async function main() {
 
     // Master
 
+    const output = './example-out.log';
+    const error = './example-error.log';
+
     let tasks = [];
     let taskCnt = initialTaskCnt;
     for (let i = 0; i < initialTaskCnt; i++) tasks.push({task: 'example', value: i + 1});
@@ -117,8 +120,20 @@ async function main() {
       onIdle: () => {
         return (taskFinished === taskCnt);
       },
+      beforeStart: async (Pm2RepReq, pm2) => {
+        //console.log('Pm2RepReq', Pm2RepReq);
+        //console.log('pm2', pm2);
+        const fs = require('fs');
+        Promise.all([
+          new Promise(resolve => { fs.unlink(output, resolve); }),
+          new Promise(resolve => { fs.unlink(error, resolve); }),
+        ]);
+      },
       options: {
-        max_memory_restart : '50M',
+        max_memory_restart: '50M',
+        mergeLogs: true,
+        output: output,
+        error: error,
       },
     };
 

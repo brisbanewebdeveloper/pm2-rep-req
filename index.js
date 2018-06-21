@@ -30,6 +30,7 @@ class Pm2RepReq {
       this.sock = axon.socket('rep');
       this.deleteOnComplete = options.deleteOnComplete;
       this.onIdle = options.onIdle;
+      this.beforeStart = options.beforeStart;
 
       this.options = Object.assign({
         name: this.name,
@@ -48,6 +49,7 @@ class Pm2RepReq {
         if (err) console.log(err);
         if (this.verbose) console.log('Finishing Worker');
         pm2.disconnect();
+        if (this.verbose) console.info(`Closing Port ${this.port}`);
         this.sock.close();
         resolve();
       });
@@ -108,15 +110,16 @@ class Pm2RepReq {
 
       if (this.verbose) console.log(`Binding to Port ${this.port}`);
       this.sock.bind(this.port);
-      process.on('SIGINT', function() {
-        console.info(`Closing Port ${self.port}`);
-        self.sock.close();
+      process.on('SIGINT', async () => {
+        await this.finish();
         process.exit(0);
       });
 
       this.sock.on('message', (task, data, reply) => {
         this.cb(task, data, reply);
       });
+
+      if (this.beforeStart) await this.beforeStart(this, pm2);
 
       await new Promise((resolve, error) => {
         pm2.start(

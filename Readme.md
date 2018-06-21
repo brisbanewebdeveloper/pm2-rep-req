@@ -87,6 +87,10 @@ Set true to delete Worker upon completing the task at Master-side.
 
 Function to check if the task is finished.
 
+##### beforeStart: function
+
+Function called before starting PM2.
+
 ##### options: Object
 
 Extra option to pass to [pm2.start()](http://pm2.keymetrics.io/docs/usage/pm2-api/#programmatic-api).
