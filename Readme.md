@@ -14,6 +14,9 @@ npm install hironozu/pm2-rep-req
 example.js shows you the example.
 
 ```shell
+mkdir -p /somewhere/hironozu/pm2-rep-req
+cd /usr/local/src/hironozu/pm2-rep-req
+git clone git@github.com:hironozu/pm2-rep-req.git .
 time node example.js
 ```
 
