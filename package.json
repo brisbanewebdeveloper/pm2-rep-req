@@ -23,7 +23,7 @@
   "homepage": "https://github.com/hironozu/pm2-rep-req#readme",
   "dependencies": {
     "argv": "0.0.2",
-    "axios": ">=0.21.1",
+    "axios": ">=0.21.2",
     "dot-prop": ">=6.0.1",
     "extend": ">=3.0.2",
     "kind-of": "^6.0.3",
