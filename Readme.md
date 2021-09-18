@@ -17,6 +17,7 @@ example.js shows you the example.
 mkdir -p /somewhere/hironozu/pm2-rep-req
 cd /usr/local/src/hironozu/pm2-rep-req
 git clone git@github.com:hironozu/pm2-rep-req.git .
+npm install
 time node example.js
 ```
 
