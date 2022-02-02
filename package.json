@@ -23,16 +23,16 @@
   "homepage": "https://github.com/brisbanewebdeveloper/pm2-rep-req#readme",
   "dependencies": {
     "argv": "0.0.2",
-    "dot-prop": ">=6.0.1",
+    "dot-prop": ">=7.1.1",
     "extend": ">=3.0.2",
     "kind-of": "^6.0.3",
     "lodash": ">=4.17.21",
-    "normalize-url": ">=7.0.2",
-    "npm-check-updates": "^11.8.5",
-    "pm2": "^5.1.1",
+    "normalize-url": ">=7.0.3",
+    "npm-check-updates": "^12.2.1",
+    "pm2": "^5.1.2",
     "proxy-agent": "^5.0.0",
     "set-value": ">=4.1.0",
     "tar": ">=6.1.11",
-    "vm2": ">=3.9.4"
+    "vm2": ">=3.9.5"
   }
 }
