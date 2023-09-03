@@ -1,8 +1,8 @@
 
 'use strict';
 
-const instances = 2;
-const initialTaskCnt = 5000;
+const instances = require('os').cpus().length - 1;
+const initialTaskCnt = 3000;
 
 const port = 60000;
 const argv = require('argv');
@@ -148,7 +148,7 @@ async function main() {
         if (taskFailed.length === 0) {
           break;
         } else {
-          console.log(`Number of Tasks Failed: ${taskFailed.length}`);
+          console.log(`Number of Tasks Failed: ${taskFailed.length} - Continuing`);
           tasks = taskFailed;
           taskCnt = tasks.length;
           taskFailed = [];
