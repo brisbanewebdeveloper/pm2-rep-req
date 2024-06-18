@@ -1,8 +1,11 @@
 {
   "name": "pm2-rep-req",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "description": "Cluster with PM2 and Axon by using Req / Rep model.",
   "main": "index.js",
+  "engines": {
+    "node": "^20.14.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,7 +18,7 @@
     "Cluster",
     "PM2"
   ],
-  "author": "Hiro Nozu",
+  "author": "Brisbane Web Developer",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/brisbanewebdeveloper/pm2-rep-req/issues"
@@ -23,21 +26,21 @@
   "homepage": "https://github.com/brisbanewebdeveloper/pm2-rep-req#readme",
   "dependencies": {
     "argv": "0.0.2",
-    "axios": "^1.6.7",
-    "dot-prop": ">=8.0.2",
+    "axios": "^1.7.2",
+    "dot-prop": ">=9.0.0",
     "extend": ">=3.0.2",
-    "got": "^14.2.0",
+    "got": "^14.4.1",
     "kind-of": "^6.0.3",
     "lodash": ">=4.17.21",
-    "normalize-url": ">=8.0.0",
-    "npm-check-updates": "^16.14.15",
-    "pm2": "^5.3.1",
+    "normalize-url": ">=8.0.1",
+    "npm-check-updates": "^16.14.20",
+    "pm2": "^5.4.1",
     "proxy-agent": "^6.4.0",
-    "semver": "^7.6.0",
+    "semver": "^7.6.2",
     "set-value": ">=4.1.0",
-    "tar": ">=6.2.1",
+    "tar": ">=7.2.0",
     "vm2": ">=3.9.18",
     "word-wrap": "^1.2.5",
-    "yaml": ">=2.4.0"
+    "yaml": ">=2.4.5"
   }
 }
