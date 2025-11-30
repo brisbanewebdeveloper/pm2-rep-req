@@ -7,7 +7,7 @@
     "node": "^20.14.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node test.js"
   },
   "repository": {
     "type": "git",
@@ -26,21 +26,21 @@
   "homepage": "https://github.com/brisbanewebdeveloper/pm2-rep-req#readme",
   "dependencies": {
     "argv": "0.0.2",
-    "axios": "^1.12.0",
-    "dot-prop": ">=9.0.0",
+    "axios": "^1.13.2",
+    "dot-prop": ">=10.1.0",
     "extend": ">=3.0.2",
-    "got": "^14.4.1",
+    "got": "^14.6.5",
     "kind-of": "^6.0.3",
     "lodash": ">=4.17.21",
-    "normalize-url": ">=8.0.1",
-    "npm-check-updates": "^16.14.20",
-    "pm2": "^6.0.8",
-    "proxy-agent": "^6.4.0",
-    "semver": "^7.6.2",
+    "normalize-url": ">=8.1.0",
+    "npm-check-updates": "^19.1.2",
+    "pm2": "^6.0.14",
+    "proxy-agent": "^6.5.0",
+    "semver": "^7.7.3",
     "set-value": ">=4.1.0",
-    "tar": ">=7.2.0",
-    "vm2": ">=3.9.18",
+    "tar": ">=7.5.2",
+    "vm2": ">=3.10.0",
     "word-wrap": "^1.2.5",
-    "yaml": ">=2.4.5"
+    "yaml": ">=2.8.1"
   }
 }
