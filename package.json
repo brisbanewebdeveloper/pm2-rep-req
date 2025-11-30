@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/brisbanewebdeveloper/pm2-rep-req#readme",
   "dependencies": {
-    "argv": "0.0.2",
+    "argv": "0.0.3",
     "axios": "^1.13.2",
     "dot-prop": ">=10.1.0",
     "extend": ">=3.0.2",
