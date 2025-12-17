@@ -6,7 +6,7 @@ This package let you cluster with PM2 and Axon by using Req / Rep model.
 
 ```shell
 npm install pm2 -g
-npm install hironozu/pm2-rep-req
+npm install brisbanewebdeveloper/pm2-rep-req
 ```
 
 ## Example
@@ -14,9 +14,9 @@ npm install hironozu/pm2-rep-req
 example.js shows you the example.
 
 ```shell
-mkdir -p /somewhere/hironozu/pm2-rep-req
-cd /usr/local/src/hironozu/pm2-rep-req
-git clone git@github.com:hironozu/pm2-rep-req.git .
+mkdir -p /somewhere/brisbanewebdeveloper/pm2-rep-req
+cd /usr/local/src/brisbanewebdeveloper/pm2-rep-req
+git clone git@github.com:brisbanewebdeveloper/pm2-rep-req.git .
 npm install
 time node example.js
 ```
