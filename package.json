@@ -31,7 +31,7 @@
     "extend": ">=3.0.2",
     "got": "^14.6.5",
     "kind-of": "^6.0.3",
-    "lodash": ">=4.17.21",
+    "lodash": ">=4.17.23",
     "normalize-url": ">=8.1.0",
     "npm-check-updates": "^19.1.2",
     "pm2": "^6.0.14",
