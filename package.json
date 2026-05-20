@@ -34,7 +34,7 @@
     "lodash": ">=4.17.23",
     "normalize-url": ">=8.1.0",
     "npm-check-updates": "^19.1.2",
-    "pm2": "^6.0.14",
+    "pm2": "^7.0.0",
     "proxy-agent": "^6.5.0",
     "semver": "^7.7.3",
     "set-value": ">=4.1.0",
