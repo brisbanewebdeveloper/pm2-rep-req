@@ -35,7 +35,7 @@
     "normalize-url": ">=8.1.0",
     "npm-check-updates": "^19.1.2",
     "pm2": "^7.1.2",
-    "proxy-agent": "^6.5.0",
+    "proxy-agent": "^8.0.3",
     "semver": "^7.7.3",
     "set-value": ">=4.1.0",
     "vm2": ">=3.12.2",
